@@ -1,0 +1,5 @@
+{
+    "redirects": [
+      { "source": "/", "destination": "/sign-in", "status": 307 }
+    ]
+}
