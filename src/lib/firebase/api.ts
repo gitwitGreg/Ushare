@@ -27,7 +27,6 @@ export async function makeNewPost (post: IMNewPost) {
           likes: post.likes,
           time: serverTimestamp()
         });
-        console.log('post made');
         return
     }catch(error){
         console.log(error);

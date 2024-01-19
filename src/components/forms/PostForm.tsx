@@ -80,7 +80,6 @@ export const PostForm = ({ post, action }: PostFormProps) => {
     try{
       const currUser = await getCurrUser();
       if(currUser){
-        console.log(values.file);
         await createPost({
           caption: values.caption,
           file: values.file,
