@@ -23,7 +23,7 @@ import { useUpdateUserInfo } from "@/lib/reactQuery/queriesAndMutations"
 
 const UpdateProfile = () => {
   const { user } = useContext(AuthContext) || {INITIAL_USER}
-  const [ newFile, setNewFile ] = useState<string>();
+  const [ newFile, setNewFile ] = useState<File[]>([]);
   const { mutateAsync: updateUserInfo } = useUpdateUserInfo();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,7 +63,7 @@ const UpdateProfile = () => {
       userId: values.username,
       name: values.name,
       bio: values.bio,
-      file : newFile as unknown as File[],
+      file : newFile,
       email: String(user?.email),
     })
     console.log('succesful Updatee');
