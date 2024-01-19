@@ -5,14 +5,17 @@ import Bottombar from '@/components/shared/Bottombar'
 
 const RootLayout = () => {
   return (
-    <div className='w-full'>
+    <div
+    className='flex flex-col w-[100%]'>
       <Topbar />
-      <Leftbar />
-      
-      <section className='flex flex-1 h-full'>
-        <Outlet />
-      </section>
-
+      <div
+      className='flex flex-1'>
+        <Leftbar />
+        <section
+        className='flex-1 p-4'>
+          <Outlet />
+        </section>
+      </div>
       <Bottombar />
     </div>
   )

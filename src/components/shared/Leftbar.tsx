@@ -1,15 +1,16 @@
 import { Link, NavLink, useLocation } from "react-router-dom"
 import { useContext, useEffect } from "react";
-import { AuthContext } from "@/conxtext/AuthContext";
+import { AuthContext } from "@/context/AuthContext";
 import { sidebarLinks } from "@/constants";
 import { INavLink } from "@/types";
 import { Button } from "../ui/button";
 import { useSignout } from "@/lib/reactQuery/queriesAndMutations";
 import { useNavigate } from "react-router-dom";
+import { INITIAL_STATE } from "@/context/AuthUtils";
 
 const Leftbar = () => {
   const {mutateAsync: signOut , isSuccess} = useSignout();
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext) || {user: INITIAL_STATE};
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -18,7 +19,7 @@ const Leftbar = () => {
     if (isSuccess) {
       navigate('/sign-in')
     }
-  },[isSuccess])
+  },[isSuccess, navigate])
 
   return (
     <nav className="leftsidebar">

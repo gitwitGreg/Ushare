@@ -1,3 +1,5 @@
+import firebase from "firebase/compat/app";
+
 export type INavLink = {
     imgURL: string;
     route: string;
@@ -8,10 +10,10 @@ export type INavLink = {
     userId: string;
     name: string;
     bio: string;
-    imageId: string;
-    imageUrl: URL | string;
     file: File[];
+    email: string;
   };
+
   
   export type INewPost = {
     userId: string;
@@ -19,28 +21,29 @@ export type INavLink = {
     caption: string;
     file: File[];
     location?: string;
-    tags?: string;
+    tags?: string[];
     likes: string[];
+    saves?: string[]
+    time?: firebase.firestore.Timestamp;
   };
   
   export type IMNewPost = {
     userId: string;
     instructorId: string;
     caption: string;
-    file: string;
+    file: File[];
     location?: string;
-    tags?: string;
+    tags?: string[];
     likes: string[];
+    saves?: string[]
+    time?: firebase.firestore.Timestamp;
   };
 
   export type IUpdatePost = {
     postId: string;
     caption: string;
-    imageId: string;
-    imageUrl: URL;
-    file: File[];
     location?: string;
-    tags?: string;
+    tags?: string[];
   };
   
   export type IUser = {
@@ -51,6 +54,8 @@ export type INavLink = {
     imageUrl: string;
     bio: string;
     liked: string[];
+    followers: string[];
+    following: string[];
   };
   
   export type INewUser = {

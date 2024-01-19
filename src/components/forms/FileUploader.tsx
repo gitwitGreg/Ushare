@@ -1,27 +1,32 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import React, {useCallback, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {FileWithPath, useDropzone} from 'react-dropzone'
 import { Button } from "../ui/button"
 
 
 type FileUploaderProps= {
   fieldChange: (FILES: File[]) => void;
-  mediaUrl: string;
+  mediaUrl: string | undefined ;
 }
 
 const FileUploader = ({ fieldChange, mediaUrl}: FileUploaderProps) => {
-
   const [file, setFile] = useState<File[]>([]);
-  const [fileUrl, setFileUrl] = useState('');
+  const [fileUrl, setFileUrl] = useState(mediaUrl);
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
       setFile(acceptedFiles);
       fieldChange(acceptedFiles);
       setFileUrl(URL.createObjectURL(acceptedFiles[0]));
-    }, [file]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [file,fieldChange]
   )
+
+  useEffect(() => {
+    setFileUrl(mediaUrl);
+  }, [mediaUrl]);
+
 
   const {getRootProps, getInputProps} = useDropzone(
     {

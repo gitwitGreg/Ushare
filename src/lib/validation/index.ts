@@ -20,3 +20,11 @@ export const SignupValidation = z.object({
     location: z.string().min(2).max(100),
     tags: z.string(),
   })
+
+  export const ProfileValidation = z.object({
+    name: z.string().max(2250),
+    username: z.string().max(2250),
+    profileImg: z.custom<File[]>(),
+    email: z.string().min(2).max(100),
+    bio: z.string(),
+  })

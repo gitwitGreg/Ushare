@@ -6,6 +6,8 @@ export const INITIAL_USER = {
     imageUrl: '',
     liked: [''],
     bio : '',
+    followers: [],
+    following: [],
 }
 
  export const INITIAL_STATE = {

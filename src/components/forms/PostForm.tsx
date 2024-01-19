@@ -15,46 +15,76 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
 import FileUploader from "./FileUploader"
 import { PostValidation } from "@/lib/validation"
-import { useMakeNewPost} from "@/lib/reactQuery/queriesAndMutations"
+import { useMakeNewPost, useUpdatePost} from "@/lib/reactQuery/queriesAndMutations"
 import { useGetCurrUser } from "@/lib/reactQuery/queriesAndMutations"
 import { toast} from "@/components/ui/use-toast"
+import { useEffect } from "react"
+import { Url } from "url"
+import { useNavigate } from "react-router-dom"
 
 type PostFormProps = {
   post?: {
     caption: string,
-    location: string,
-    tags: string[],
-    file: URL,
-    imageUrl?: string,
+    location?: string | undefined,
+    tags?: string[] | undefined,
+    file: string,
+    imageUrl?: string | undefined,
+    instructorId?: string;
+    postId?: string, 
+    imageId?: Url;
   }
+  action: 'create' | 'update'
 }
 
-
-export const PostForm = ({ post }: PostFormProps) => {
-
-  const {mutateAsync: createPost, isPending: isPosting} = useMakeNewPost();
-  const {mutateAsync: getCurrUser, isPending: isGettingUser} = useGetCurrUser();
-
+export const PostForm = ({ post, action }: PostFormProps) => {
+  const navigate = useNavigate();
+  const {mutateAsync: createPost} = useMakeNewPost();
+  const {mutateAsync: updatePost} = useUpdatePost();
+  const {mutateAsync: getCurrUser } = useGetCurrUser();
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
       caption: post? post.caption: '',
       file: [],
       location: post? post.location: '',
-      tags: post? post.tags.join(','): ''
+      tags: Array.isArray(post?.tags) ? post.tags.join(',') : '',
+      imageUrl: post?.imageUrl || '', 
+    } as {
+      caption: string;
+      file: File[];
+      location: string;
+      tags: string;
+      imageUrl: string;
     },
   })
 
-
    async function onSubmit(values: z.infer<typeof PostValidation>) {
+    if(post && action == 'update') {
+      try{
+        await updatePost({
+          postId: post.instructorId as string,
+          caption: values.caption,
+          location: values.location,
+          tags: [values.tags],
+        })
+        form.reset();
+        toast({
+          description: 'Update Successful'
+        })
+        navigate(`/posts/${post.instructorId}`);
+      }catch(error){
+        console.log(error);
+      }
+      return;
+    }
     try{
       const currUser = await getCurrUser();
-      const url = URL.createObjectURL(values.file[0]);
       if(currUser){
+        console.log(values.file);
         await createPost({
           caption: values.caption,
-          file: url,
-          tags: values.tags,
+          file: values.file,
+          tags: [values.tags],
           location: values.location,
           userId: currUser?.username,
           instructorId: String(Date.now()),
@@ -72,7 +102,16 @@ export const PostForm = ({ post }: PostFormProps) => {
       console.log(error);
     }
     }
-    
+
+    useEffect(() => {
+      form.reset({
+        caption: post?.caption || '',
+        location: post?.location || '',
+        tags: Array.isArray(post?.tags) ? post.tags.join(',') : '',
+        file: [],  // Assuming an array for 'file'
+      });
+    }, [post, form]);
+
   return (
     <Form {...form}>
       <form 
@@ -91,7 +130,8 @@ export const PostForm = ({ post }: PostFormProps) => {
               <FormControl>
                 < Textarea 
                 className=" w-[600px] bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3"
-                {...field}/>
+                {...field}
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -110,7 +150,7 @@ export const PostForm = ({ post }: PostFormProps) => {
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange} 
-                  mediaUrl={post?.imageUrl} 
+                  mediaUrl={post?.file} 
                 />
               </FormControl>
               <FormMessage className="shad-form_message" />
@@ -131,7 +171,9 @@ export const PostForm = ({ post }: PostFormProps) => {
                 < Input
                 type='text'
                 className=" h-[50px] bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important w-[600px] rounded sm:w-[65%]"
-                {...field}/>
+                {...field}
+                placeholder="Add a location"
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
         </FormItem>
@@ -146,14 +188,15 @@ export const PostForm = ({ post }: PostFormProps) => {
             <FormItem>
               <FormLabel 
               className="shad-form_label">
-                Add Tags (seperated by ",")
+                Add Tags seperated by (" , ")
                 </FormLabel>
               <FormControl>
                 < Input
                 type="text"
                 className=" h-[50px] bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important w-[600px] rounded sm:w-[65%]"
                 {...field}
-                placeholder="People, Places, More"/>
+                placeholder="People, Places, More"
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -170,7 +213,7 @@ export const PostForm = ({ post }: PostFormProps) => {
           type="submit"
           className=" bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 h-12 sm:mr-20"
           >
-            Submit
+            {post? 'Update Post': 'Create'}
           </Button>
         </div>
       </form>

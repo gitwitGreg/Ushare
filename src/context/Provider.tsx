@@ -32,7 +32,9 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
                 imageUrl: currAccount.imageUrl,
                 liked: currAccount.liked,
                 email: currAccount.email,
-                id: currAccount.id
+                id: currAccount.id,
+                followers: currAccount.followers,
+                following: currAccount.following,
               }
               setUser(user);
             }
@@ -45,7 +47,6 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
             setIsLoading(false)
           }
     }
-
     const value = {
         user,
         setUser,
