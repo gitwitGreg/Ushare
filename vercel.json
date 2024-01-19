@@ -1,5 +1,5 @@
 {
     "redirects": [
-      { "source": "/", "destination": "/sign-in", "status": 307 }
+      { "source": "/", "destination": "/sign-in", "statusCode": 307 }
     ]
 }
