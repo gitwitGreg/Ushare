@@ -173,7 +173,7 @@ export async function signOutUser() {
     }
   }catch(error){
     console.log(error);
-    throw error;
+    throw error
   }
 }
 

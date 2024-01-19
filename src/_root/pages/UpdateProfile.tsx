@@ -63,7 +63,7 @@ const UpdateProfile = () => {
       userId: values.username,
       name: values.name,
       bio: values.bio,
-      file : newFile,
+      file : newFile as unknown as File[],
       email: String(user?.email),
     })
     console.log('succesful Updatee');
