@@ -7,7 +7,7 @@ import { Button } from "../ui/button"
 
 type FileUploaderProps= {
   fieldChange: (FILES: File[]) => void;
-  mediaUrl: string | undefined ;
+  mediaUrl: string | undefined  | File[];
 }
 
 const FileUploader = ({ fieldChange, mediaUrl}: FileUploaderProps) => {
@@ -49,7 +49,7 @@ const FileUploader = ({ fieldChange, mediaUrl}: FileUploaderProps) => {
             {
             fileUrl ? (
               <div className="flex justify-center w-[150%] p-5 lg:p-1">
-                <img src={fileUrl}
+                <img src={fileUrl as string}
                 alt='image'
                 className="file_uploader-img"
                 width={96}

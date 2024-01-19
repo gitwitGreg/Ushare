@@ -2,17 +2,20 @@ import { Link, NavLink, useLocation } from "react-router-dom"
 import { useContext, useEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { sidebarLinks } from "@/constants";
-import { INavLink } from "@/types";
+import { IContextType, INavLink } from "@/types";
 import { Button } from "../ui/button";
 import { useSignout } from "@/lib/reactQuery/queriesAndMutations";
 import { useNavigate } from "react-router-dom";
-import { INITIAL_STATE } from "@/context/AuthUtils";
+
+
 
 const Leftbar = () => {
   const {mutateAsync: signOut , isSuccess} = useSignout();
-  const { user } = useContext(AuthContext) || {user: INITIAL_STATE};
+  const authContext = useContext(AuthContext) as IContextType;
+  const { user } = authContext;
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
 
 
   useEffect(() => {
@@ -81,7 +84,7 @@ const Leftbar = () => {
         <Button 
             variant='ghost' 
             className='shad_button_ghost text-l ml-[-50%] mt-[150%]'
-            onClick={()=>signOut(user)}>
+            onClick={()=>signOut()}>
                 <img 
                 src='/assets/logout.svg'
                 alt='logout'/>

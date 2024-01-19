@@ -27,7 +27,7 @@ type PostFormProps = {
     caption: string,
     location?: string | undefined,
     tags?: string[] | undefined,
-    file: string,
+    file: File[],
     imageUrl?: string | undefined,
     instructorId?: string;
     postId?: string, 

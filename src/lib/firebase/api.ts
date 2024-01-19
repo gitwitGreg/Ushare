@@ -14,6 +14,7 @@ import { toast } from "@/components/ui/use-toast";
 import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 
 export async function makeNewPost (post: IMNewPost) {
+  console.log(post.file);
     try{
         const db = getFirestore(app)
         const picUrl =  await uploadPhoto(post.file);
@@ -172,6 +173,7 @@ export async function signOutUser() {
     }
   }catch(error){
     console.log(error);
+    throw error;
   }
 }
 
