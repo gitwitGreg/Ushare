@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/gmensah502-gmailcom/ushare/:path*", "destination": "/sign-in" }
+    { "source": "/:any*", "destination": "/sign-in" }
   ]
 }
