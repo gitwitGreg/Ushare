@@ -29,7 +29,6 @@ const UpdateProfile = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFileChange = (e : any) => {
     console.log('starting');
-    console.log(e.target)
     const file = e.target.files;
     setNewFile(file);
   };

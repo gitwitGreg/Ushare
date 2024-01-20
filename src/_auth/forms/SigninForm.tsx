@@ -44,7 +44,7 @@ const SigninForm = () => {
       width={50} 
       />
       <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
-        Create a new account
+        Sign in
       </h2>
       <p className="text-light-3 small-medium md:base-regular mt-2">
         To use Ushare enter account details

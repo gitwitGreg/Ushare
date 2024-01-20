@@ -148,7 +148,7 @@ export const PostForm = ({ post, action }: PostFormProps) => {
                 </FormLabel>
               <FormControl>
                 <FileUploader
-                  fieldChange={field.onChange} 
+                   fieldChange={field.onChange} 
                   mediaUrl={post?.file} 
                 />
               </FormControl>

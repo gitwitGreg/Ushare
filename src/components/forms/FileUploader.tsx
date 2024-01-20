@@ -58,7 +58,8 @@ const FileUploader = ({ fieldChange, mediaUrl}: FileUploaderProps) => {
               </div>
             ):(
               <div className="ml-28">
-                <img src='/assets/file-upload.svg'
+                <img 
+                src='/assets/file-upload.svg sm:h-10 sm:w-10'
                   />
                 <h3 className="text-bold text-lg">Drag Photo</h3>
                 <p className="text-light-4 small-regular mb-6">

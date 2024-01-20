@@ -59,7 +59,7 @@ export const SignupForm = () => {
       // @ts-ignore
       onSubmit={handleSubmit(onSubmit)}
       className='flex flex-col gap-5 mt-2'>
-        <label>name</label>
+        <label>Name</label>
         <input {...register('name')} 
         type='text'
         className='bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important w-[500px] h-[50px] rounded'

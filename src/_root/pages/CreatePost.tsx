@@ -2,7 +2,7 @@ import PostForm from '@/components/forms/PostForm'
 
 const CreatePost = () => {
   return (
-    <div className='absolute top-32 left-[30%] sm:left-[35%]'>
+    <div className='top-32 left-[30%] sm:left-[35%]'>
       <div className='common-container'>
         <div className='max-w-5xl flex gap-3 justify-start w-full'>
           <img 
