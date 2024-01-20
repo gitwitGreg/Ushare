@@ -1,5 +1,5 @@
 {
-    "redirects": [
-      { "source": "/sign-in", "destination": "/sign-in", "statusCode": 307 }
-    ]
+  "rewrites": [
+    { "source": "/gmensah502-gmailcom/ushare/:path*", "destination": "/sign-in" }
+  ]
 }
