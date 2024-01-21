@@ -67,27 +67,13 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     }
   }
 
-  useEffect(() => {
-    // Fetch initial likes count when the component mounts
-    const fetchInitialLikes = async () => {
-      const initialPost = await getPostById(post.instructorId);
-      if(user){
-        if (initialPost && initialPost.likes && initialPost.saved) {
-          const initialLikes = initialPost.likes.length;
-          const initialSaves = initialPost.saved.length;
-          setLikes(initialLikes);
-          setSaves(initialSaves);
-          // Save initial likes count to localStorage
-          localStorage.setItem(`saves_${post.instructorId}`, initialSaves.toString());
-          if(initialPost.likes.includes(user.username)){
-            setIsLiked(true);
-          }
-        }
-      }
-    };
-
-    fetchInitialLikes();
-  }, [getPostById, post.instructorId, user]);
+  if(!post){
+    return (
+      <div>
+        no posts stats
+      </div>
+    )
+  }
 
   return (
     <div
@@ -103,7 +89,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         />
         <p
         className='small-medium lg:base-medium'>
-          {likes}
+          {post.likes.length}
         </p>
       </div>
       <div
@@ -117,7 +103,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         />
         <p
         className='small-medium lg:base-medium'>
-          {saves}
+          {post.saves?.length}
         </p>
       </div>
     </div>

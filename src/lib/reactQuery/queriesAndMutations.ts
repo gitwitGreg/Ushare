@@ -70,13 +70,11 @@ export const useGetUserLikedPosts = (username:string) => {
 }
 
 
-export const useGetRecentPosts = (): UseQueryResult<INewPost[], unknown> => {
-
-    const options: UseQueryOptions<INewPost[], unknown> = {
-      queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-      queryFn: getRecentPosts,
-    };
-    return useQuery(options);
+export const useGetRecentPosts = () => {
+  return useQuery({
+    queryFn: () => getRecentPosts(),
+    queryKey: [QUERY_KEYS.GET_RECENT_POSTS]
+  })
 }
 
 

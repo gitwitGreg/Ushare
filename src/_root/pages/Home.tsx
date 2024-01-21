@@ -4,7 +4,7 @@ import { INewPost } from '@/types';
 import { Loader } from 'lucide-react';
 
 const Home = () => {
-  const { data: posts, isLoading, isError } = useGetRecentPosts();
+  const { data: posts, isLoading } = useGetRecentPosts();
   if(isLoading){
     return (
       <div>
@@ -12,13 +12,8 @@ const Home = () => {
       </div>
     )
   }
-  if(isError){
-    return(
-      <div>
-        there was an error loading posts
-      </div>
-    )
-  }
+  console.log(posts[0].likes);
+
   return (
     <div
     className=' ml-10'>

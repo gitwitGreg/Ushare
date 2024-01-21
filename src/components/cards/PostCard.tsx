@@ -18,7 +18,6 @@ const PostCard: React.FC<PostCardProps> = ({ post })  => {
     const {mutateAsync: getRecentPostProfile} = useGetRecentPostProfile();
     const newTime = post?.time ? timestampToDaysHours(post.time) : 'N/A';
 
-
     useEffect(() => {
       getRecentPostProfile(post)
       .then((postProfile) => {
@@ -27,6 +26,7 @@ const PostCard: React.FC<PostCardProps> = ({ post })  => {
         }
       })
     }, [getRecentPostProfile, post, user.username])
+
     
   return (
     <div
