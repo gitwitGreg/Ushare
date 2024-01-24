@@ -35,7 +35,7 @@ export type INavLink = {
     location?: string;
     tags?: string[];
     likes: string[];
-    saves?: string[]
+    saved?: string[]
     time?: firebase.firestore.Timestamp;
   };
 

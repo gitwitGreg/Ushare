@@ -16,17 +16,14 @@ const Explore = () => {
   const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(deBouncedValue);
   const shouldShowSearchResults = searchValue !== '';
   const shouldShowPosts = !shouldShowSearchResults;
-  const { data:posts, hasNextPage, fetchNextPage, status } = useGetInfinitePosts();
+  const { data:posts, hasNextPage, fetchNextPage } = useGetInfinitePosts();
   
   
-  if (status !== 'success') {
-    return <div>Loading...</div>;
-  }
-
   if (!searchValue && inView && hasNextPage) {
-    console.log('about to fetch');
+    if(posts == null){
+      return;
+    }
     fetchNextPage();
-    console.log('fetched');
   }
 
 
@@ -72,7 +69,7 @@ const Explore = () => {
           posts.pages.map((item: INewPost[]) => (
             <GridPostList 
             posts={ item } 
-            key={String(String(item[item.length-1].time))}
+            key={item? String(String(item[item.length-1].time)) : 'last Post'}
             />
           ))
         ) : (

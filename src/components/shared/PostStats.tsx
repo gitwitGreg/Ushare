@@ -1,30 +1,45 @@
 import { IMNewPost} from '@/types'
-import { useLikePost, useGetPostById, useSavePost } from '@/lib/reactQuery/queriesAndMutations'
+import { useLikePost, useGetPostById, useSavePost, useDeleteSave } from '@/lib/reactQuery/queriesAndMutations'
 import { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '@/context/AuthContext'
-import { deleteSave, removeLike } from '@/lib/firebase/api'
+import { removeLike } from '@/lib/firebase/api'
 
 type PostStatsProps = {
   post: IMNewPost,
   userId: string,
+  username: string,
 }
 
 
-const PostStats = ({ post, userId }: PostStatsProps) => {
+const PostStats = ({ post, userId, username }: PostStatsProps) => {
   const pParms = {
     postId : post.instructorId,
     userId: userId,
   }
+  const deleteParams = {
+    postId: post.instructorId,
+    userName: username
+  }
+
   const context = useContext(AuthContext);
   const user = context?.user || undefined;
-  const [ likes, setLikes ] = useState(0);
-  const [ saves, setSaves ] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const { mutateAsync: likePost } = useLikePost();
   const { mutateAsync: getPostById }  = useGetPostById();
   const { mutateAsync: savePost } = useSavePost();
+  const {mutateAsync: deleteSave } = useDeleteSave();
+
+
+  useEffect(() => {
+    if(!post){
+      return;
+    }
+    if(post.likes.includes(String(user?.username))){
+      setIsLiked(true);
+    }
+  },[post.likes, user?.username, post])
 
 
   const likingPost = async () => {
@@ -34,13 +49,12 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         const updatedPost = await getPostById(post.instructorId);
         if(updatedPost){
           setIsLiked(false);
-          setLikes(updatedPost.likes.length);
+
         }
       }else{
         await likePost(pParms);
         const newPost = await getPostById(post.instructorId);
         if(newPost){
-          setLikes(newPost.likes.length);
           setIsLiked(true);
         }
       }
@@ -49,19 +63,17 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const savingPost = async () => {
     if(user){
-      const newPost = await getPostById(post.instructorId);
-      if(newPost){
-        if(newPost.saved.includes(user.username)){
-          await deleteSave(pParms.postId, user.username);
-          const updatedPost = await getPostById(post.instructorId);
-          if(updatedPost){
-            setSaves(updatedPost.saved.length);
-          }
-        }
-        else{
-          await savePost(pParms);
+      if(post.saved?.includes(user.username)){
+        await deleteSave(deleteParams);
+        setIsSaved(false);
+        return;
+      }
+      else{
+        await savePost(pParms);
+        const newPost = await getPostById(post.instructorId);
+        if(newPost){
           setIsSaved(true);
-          setSaves(newPost.saved.length);
+          return;
         }
       }
     }
@@ -103,7 +115,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         />
         <p
         className='small-medium lg:base-medium'>
-          {post.saves?.length}
+          {post.saved?.length || 0} 
         </p>
       </div>
     </div>

@@ -10,5 +10,6 @@ export enum QUERY_KEYS {
   UNFOLLOWUSER = 'unfollowUser',
   GETSAVEDPOSTS = 'getSavedPosts',
   GET_USER_POSTS = 'getUserPosts',
-  GET_USER_LIKED_POSTS = 'getUserLikedPosts'
+  GET_USER_LIKED_POSTS = 'getUserLikedPosts',
+  DELETE_SAVE = 'deleteSave'
 }

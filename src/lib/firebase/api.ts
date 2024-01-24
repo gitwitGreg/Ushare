@@ -26,6 +26,7 @@ export async function makeNewPost (post: IMNewPost) {
           userId: post.userId,
           tags: post.tags,
           likes: post.likes,
+          saved: [],
           time: serverTimestamp()
         });
         return
@@ -244,6 +245,7 @@ export async function getRecentPosts() {
     const querySnapshot = await getDocs(q);
     if(querySnapshot.empty){
       console.log('querySnap empty');
+      return null;
     }
     const posts: INewPost[] = [];
     querySnapshot.forEach((doc) => {
@@ -466,8 +468,9 @@ export async function deleteSave(postId: string, userName: string) {
     const qPost = postQuerySnap.docs[0]; 
     const post = doc( db, 'posts', qPost.id);
     await updateDoc(post, {
-      saved: arrayRemove(userName)
+      saved: arrayRemove(userName)   
     });
+    console.log('post save removed');
   }catch(error){
     console.log(error);
   }
@@ -534,7 +537,6 @@ export async function getInfinitePosts({ pageParam }: { pageParam?: string }) {
 
     const postsSnapshot = await getDocs(postQuery);
     if(postsSnapshot.empty){
-      console.log('no Posts found');
       return null;
     }
     const posts: DocumentData[] = [];

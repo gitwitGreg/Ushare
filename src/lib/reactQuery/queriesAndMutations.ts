@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQueryClient} from '@tanstack/react-query'
-import { addAccount, createUserAccount, deletePost , followUser, getAllProfiles, getCurrentUser, 
+import { addAccount, createUserAccount, deletePost , deleteSave, followUser, getAllProfiles, getCurrentUser, 
   getInfinitePosts, getPostById, getRecentPostProfile ,
   getRecentPosts, getSavedPosts, getUserLikedPosts, getUserPosts, 
   likePost, makeNewPost, savePost, searchPost, 
@@ -73,7 +73,8 @@ export const useGetUserLikedPosts = (username:string) => {
 export const useGetRecentPosts = () => {
   return useQuery({
     queryFn: () => getRecentPosts(),
-    queryKey: [QUERY_KEYS.GET_RECENT_POSTS]
+    queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+    
   })
 }
 
@@ -170,6 +171,13 @@ export const useLikePost = () => {
       }
     });
   };
+
+  export const useDeleteSave = () => {
+    return useMutation({
+      mutationFn: (params: {postId: string, userName: string}) => deleteSave(params.postId, params.userName),
+      mutationKey: [QUERY_KEYS.DELETE_SAVE]
+    })
+  }
   
 
   export const useGetSavedPosts = (username: string) => {
@@ -183,6 +191,7 @@ export const useLikePost = () => {
 export const useGetPostById = () => {
   return useMutation({
     mutationFn: (postId: string) => getPostById(postId),
+    mutationKey: [QUERY_KEYS.GET_POST_BY_ID]
   });
 };
 
@@ -231,9 +240,12 @@ export const useGetInfinitePosts = () => {
     queryFn: getInfinitePosts as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getNextPageParam: (lastPage: any) => {
-      if (lastPage && lastPage.length === 0) {
+      if(!lastPage){
         return null;
       }
+      if (lastPage === null || lastPage.length === 0) {
+        return null;
+      } 
       const lastId = lastPage[lastPage.length -1 ].instructorId;
       const pageSize = 3;
       if (lastPage.length < pageSize) {

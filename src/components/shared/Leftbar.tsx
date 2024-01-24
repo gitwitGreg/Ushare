@@ -39,7 +39,7 @@ const Leftbar = () => {
         className="flex gap-3 items-center">
           {user.imageUrl? (
             <img 
-            src={user.imageUrl} 
+            src={user.imageUrl || '/assets/profile-placeholder.svg'} 
             className="h-16 w-16 rounded-full"/>
           ):(
             <img src='/assets/profile-placeholder.svg' />

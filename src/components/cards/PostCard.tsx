@@ -100,6 +100,7 @@ const PostCard: React.FC<PostCardProps> = ({ post })  => {
     <PostStats 
       post={post}
       userId={user.id}
+      username={user.username}
     />
   </div>
   )

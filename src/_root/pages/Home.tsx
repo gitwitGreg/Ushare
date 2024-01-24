@@ -12,7 +12,6 @@ const Home = () => {
       </div>
     )
   }
-  console.log(posts[0].likes);
 
   return (
     <div
@@ -22,7 +21,8 @@ const Home = () => {
       {posts && posts.map((post: INewPost,) => (
         <PostCard 
         post={post}
-        key = {post.instructorId}/>
+        key = {post.instructorId}
+        />
       ))}
     </div>
   );

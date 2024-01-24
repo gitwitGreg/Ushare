@@ -1,8 +1,10 @@
 import { useGetRecentPostProfile } from '@/lib/reactQuery/queriesAndMutations';
 import { INewPost, IUser } from '@/types'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import PostStats from './PostStats';
+import { INITIAL_USER } from '@/context/AuthUtils';
+import { AuthContext } from '@/context/AuthContext';
 
 
 type gridProp = {
@@ -13,8 +15,15 @@ type gridProp = {
 
 const GridPostList = ({posts, showUser = true, showStats = true}: gridProp) => {
   const [profiles, setProfiles] = useState<IUser[]>([]);
+  const { user } = useContext(AuthContext) ?? { user: INITIAL_USER };
   const {mutateAsync: getRecentPostProfile} = useGetRecentPostProfile();
 
+
+  if(!posts){
+    return null;
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const profiles: IUser[] = [];
 
@@ -26,6 +35,11 @@ const GridPostList = ({posts, showUser = true, showStats = true}: gridProp) => {
   }
   setProfiles(profiles);
   }, [getRecentPostProfile, posts])
+
+  if(!posts){
+    return null;
+  }
+
 
 
   return (
@@ -63,7 +77,8 @@ const GridPostList = ({posts, showUser = true, showStats = true}: gridProp) => {
             {showStats && (
               <PostStats 
               post={post}
-              userId={post.userId}/>
+              userId={post.userId}
+              username={user.username}/>
             )}
           </div>
         </li>
