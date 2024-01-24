@@ -95,7 +95,7 @@ const Profile = () => {
             alt='editIcon'
             className='mr-[10px] h-5'
             />
-            Edit Post
+            Edit Profile
           </button>
         </div>
       </div>
