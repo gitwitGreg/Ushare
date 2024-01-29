@@ -13,6 +13,9 @@ limit, startAfter} from "firebase/firestore";
 import { toast } from "@/components/ui/use-toast";
 import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 
+
+// ============================== MAKE NEW POST
+
 export async function makeNewPost (post: IMNewPost) {
   console.log(post.file);
     try{
@@ -37,6 +40,8 @@ export async function makeNewPost (post: IMNewPost) {
 }
 
 
+// ============================== UPLOAD PHOTO TO STORAGE
+
 export async function uploadPhoto(file: File[]) {
   try{
     if(file && file.length > 0 && file[0].name){
@@ -53,6 +58,8 @@ export async function uploadPhoto(file: File[]) {
   }
 }
 
+
+// ============================== UPDATE USER POSTS
 
 export async function updatePost(post: IUpdatePost) {
   try{
@@ -75,6 +82,9 @@ export async function updatePost(post: IUpdatePost) {
       console.log('failure updating post', error);
   }
 }
+
+
+// ============================== DELETE A POST
 
 export async function deletePost(postId: string, fileUrl: string){
   try{
@@ -105,6 +115,8 @@ export async function deletePost(postId: string, fileUrl: string){
 }
 
 
+// ============================== ADD USER TO FIRSTORE
+
 export async function addAccount (user: INewUser) {
   try{
       const db = getFirestore(app);
@@ -123,6 +135,8 @@ export async function addAccount (user: INewUser) {
 }
 
 
+// ============================== ADD USER TO FIREBASE AUTHENTICATION
+
 export async function createUserAccount(user: INewUser) {
   try {
     const userCredentials = await createUserWithEmailAndPassword(
@@ -139,6 +153,8 @@ export async function createUserAccount(user: INewUser) {
   }
 }
 
+
+// ============================== AUTHENTICATE USER
 
 export async function signInAccount(user: { email: string; password: string }) {
   try {
@@ -162,6 +178,8 @@ export async function signInAccount(user: { email: string; password: string }) {
 }
 
 
+// ============================== SIGN OUT
+
 export async function signOutUser() {
   const auth = getAuth(app);
   try{
@@ -177,6 +195,9 @@ export async function signOutUser() {
     throw error
   }
 }
+
+
+// ============================== UPDATE USER CREDENTIALS
 
 export async function updateUserInfo(userInfo: IUpdateUser) {
   const db = getFirestore();
@@ -203,6 +224,8 @@ export async function updateUserInfo(userInfo: IUpdateUser) {
   }
 }
 
+
+// ============================== GET CURRENT USER
 
 export const getCurrentUser = (): Promise<IUser | null> => {
   return new Promise((resolve, reject) => {
@@ -236,6 +259,8 @@ export const getCurrentUser = (): Promise<IUser | null> => {
 };
 
 
+// ============================== GET RECENT POSTS
+
 export async function getRecentPosts() {
   try {
     const time = Timestamp.fromDate(new Date())
@@ -259,6 +284,8 @@ export async function getRecentPosts() {
   }
 
 
+// ============================== GET RECENT POST PROFILES
+
 export async function getRecentPostProfile (post: IMNewPost ) {
   try{
     const db = getFirestore(app);
@@ -280,6 +307,8 @@ export async function getRecentPostProfile (post: IMNewPost ) {
   }
 }
 
+
+// ============================== FOLLOW USER
 
 export async function followUser(likeUser: string, userId: string) {
   console.log('starting following');
@@ -306,6 +335,8 @@ export async function followUser(likeUser: string, userId: string) {
 }
 
 
+// ============================== UNFOLLOW USER
+
 export async function unfollowUser(likeUser: string, userId: string) {
   console.log('starting unfollow');
   const db = getFirestore(app);
@@ -330,6 +361,8 @@ export async function unfollowUser(likeUser: string, userId: string) {
 }
 
 
+// ============================== LIKE A POST
+
 export async function likePost(postId: string, userId: string) {
   try {
     const db = getFirestore(app);
@@ -348,7 +381,7 @@ export async function likePost(postId: string, userId: string) {
     const postRef = doc(db, 'posts', qPost.id);
     const existingLikes = qPost.data().likes;
     console.log(existingLikes);
-    if(user && user.username.trim()!==''){
+    if(user && user.username !== ''){
       const updatedLikes = existingLikes ? arrayUnion(user.username) : [user.username];
       await updateDoc(postRef, {
         likes: updatedLikes,
@@ -363,6 +396,9 @@ export async function likePost(postId: string, userId: string) {
     return {success: false, message: 'error liking post' }
   }
 }
+
+
+// ============================== FIND USER WHO LIKED POST
 
 export async function findLikeUser(Id: string) {
   try{
@@ -379,6 +415,9 @@ export async function findLikeUser(Id: string) {
     console.log(error);
   }
 }
+
+
+// ============================== SAVE POST
 
 export async function savePost(postId: string, userId: string) {
   try {
@@ -415,6 +454,9 @@ export async function savePost(postId: string, userId: string) {
   }
 }
 
+
+// ============================== GET USERS SAVED POSTS
+
 export async function getSavedPosts(username: string){
   const db = getFirestore(app);
   const posts = collection(db, 'posts');
@@ -436,6 +478,8 @@ export async function getSavedPosts(username: string){
 }
 
 
+// ============================== GET POSTS BY ID
+
 export async function getPostById(postId: string) {
   try {
     const db = getFirestore(app);
@@ -452,6 +496,9 @@ export async function getPostById(postId: string) {
     throw error;
   }
 }
+
+
+// ============================== DELETE POST
 
 export async function deleteSave(postId: string, userName: string) {
   try{
@@ -475,6 +522,9 @@ export async function deleteSave(postId: string, userName: string) {
     console.log(error);
   }
 }
+
+
+// ============================== REMOVE LIKE
 
 export async function removeLike(postId: string, userId:string){
   try{
@@ -500,6 +550,9 @@ export async function removeLike(postId: string, userId:string){
   }
 }
 
+
+// ============================== SEARCH FOR POST
+
 export async function searchPost(searchTerm: string){
   try{
     console.log('starting');
@@ -522,6 +575,9 @@ export async function searchPost(searchTerm: string){
   }
 
 }
+
+
+// ============================== GET INFINIT POSTS
 
 export async function getInfinitePosts({ pageParam }: { pageParam?: string }) {
   const PAGE_SIZE = 3;
@@ -553,6 +609,8 @@ export async function getInfinitePosts({ pageParam }: { pageParam?: string }) {
 }
 
 
+// ============================== GET ALL PROFILES
+
 export async function getAllProfiles(){
   try{
     const db = getFirestore(app);
@@ -571,6 +629,9 @@ export async function getAllProfiles(){
     console.log(error);
   }
 }
+
+
+// ============================== GET CURRENT USERS POSTS
 
 export async function getUserPosts(username: string){
   const db = getFirestore(app);
@@ -591,6 +652,9 @@ export async function getUserPosts(username: string){
     console.log(error);
   }
 }
+
+
+// ============================== GET USER WHO LIKED POST
 
 export async function getUserLikedPosts(username: string){
   const db = getFirestore(app);

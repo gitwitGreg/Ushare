@@ -11,11 +11,25 @@ import { QUERY_KEYS } from './queryKeys';
 import { DocumentData } from 'firebase/firestore';
 
 
+// ====================================================
+// AUTH QUERIES
+// ====================================================
 export const useCreateUserAccount = () => {
     return useMutation({
         mutationFn : (user: INewUser) => createUserAccount(user)
     })
 }
+
+
+export const useGetAllProfiles = (): UseQueryResult<DocumentData[] | undefined> => {
+
+  const options: UseQueryOptions<DocumentData[] | undefined> = {
+    queryKey: [QUERY_KEYS.GET_ALL_PROFILES],
+    queryFn: getAllProfiles,
+  };
+  return useQuery(options);
+}
+
 
 
 export const useAddAccount = () => {
@@ -54,6 +68,11 @@ export const useUpdateUserInfo = () => {
       mutationFn : (userInfo: IUpdateUser) =>updateUserInfo(userInfo)
   })
 }
+
+
+// ====================================================
+// POST QUERIES
+// ====================================================
 
 export const useGetUserPosts = (username:string) => {
   return useQuery({
@@ -256,13 +275,3 @@ export const useGetInfinitePosts = () => {
     initialPageParam: '0' ,
   });
 };
-
-
-export const useGetAllProfiles = (): UseQueryResult<DocumentData[] | undefined> => {
-
-  const options: UseQueryOptions<DocumentData[] | undefined> = {
-    queryKey: [QUERY_KEYS.GET_ALL_PROFILES],
-    queryFn: getAllProfiles,
-  };
-  return useQuery(options);
-}
