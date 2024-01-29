@@ -165,7 +165,8 @@ const PostDetails = () => {
               </ul>
               <PostStats 
               post={post as INewPost}
-              userId={postProfile.username}/>
+              userId={postProfile.username}
+              username={user.username}/>
             </div>
           </div>
           </>
