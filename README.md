@@ -14,6 +14,7 @@ UShare
 - Run in teminal with npm run start
 
 # Usage
+- initial load requires sign out before normal usage
 - Explore page impliments infinate  scroll feature utalizing react Query infinate scroll managed though pagination regulated by users scrolls.
 - Post creation allows for file uploads(png, jpg, pdf)
 
