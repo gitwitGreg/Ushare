@@ -1,3 +1,23 @@
+# Title
+UShare
+
+# Description
+- This is UShare! A social media  application for you and your friends.
+- Post pictures and share the meaningfull or not so meaningfull moments
+- stay up to date with instant updates from other users
+
+# Why
+- Staying connected with friends after school becomes challenging, especially when some avoid mainstream apps like Instagram due to the negative effects they could have on self-esteem and mental health. I decided to create an application for my close friends so they could still enjoy some aspects of social media while minimizing the negative external influences often found on more widely-used applications.
+
+# Quick start
+- Install UShare by  downloading zip folder
+- Run in teminal with npm run start
+
+# Usage
+- Explore page impliments infinate  scroll feature utalizing react Query infinate scroll managed though pagination regulated by users scrolls.
+- Post creation allows for file uploads(png, jpg, pdf)
+
+  
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
